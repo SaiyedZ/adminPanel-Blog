@@ -64,3 +64,16 @@ module.exports.delete_blog = async (req, res) => {
         res.redirect('/blog/view_blog');
     }
 };
+
+const blogss = require("../models/blogSchema");
+
+module.exports.view_all_blogs = async (req, res) => {
+    try {
+        const data = await blogs.find({});
+        let { adminId } = req.cookies; // Get adminId from cookies
+        res.render('./pages/all_blog', { data, adminId }); // Pass adminId to the template
+    } catch (error) {
+        console.error(error);
+        res.render('./pages/all_blog', { data: [], adminId: null }); // Render with empty data and null adminId on error
+    }
+};
